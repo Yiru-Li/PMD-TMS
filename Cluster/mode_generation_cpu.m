@@ -1,7 +1,4 @@
-clear all
-close all
-clc
-
+function mode_generation_cpu(subject, th_hair)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Defining Paths
 output_directory = '/home/yl647/linux/PMD-TMS/';%output directory for the results
@@ -10,7 +7,7 @@ addpath(pmd_code_path)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Parameter Set-up
-subject = 'q005';%name of the subject
+% subject = 'q005';%name of the subject
 NModes=110;%number of modes
 msh_file=fullfile(output_directory, subject, [subject '.msh']);
 simnibs_installation_directory = '/usr/local/packages/simnibs/4.1.0';
@@ -21,7 +18,7 @@ FEMORD=1;%FEM order = 1,2, or, 3
 run_mode='serial';%options = 'serial','parallel' (for HPC clusters);
 %If parallel, provide the cluster parameters in a separate csv file (cluster_parameters.csv) (compatible with slurm scripting)
 cluster_parameter_file = '/media/wang3007-1/Nahian_5TB/Research/Purdue_University/Professor_Gomez/Projects/Proj-2.1_PMD/Codes/Code_Github/Example_Scripts/cluster_parameters.csv';
-th_hair = 0.0027;%distance of coil bottom center from scalp to accommodate hair thickness
+% th_hair = 0.0027;%distance of coil bottom center from scalp to accommodate hair thickness
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Mode Calculation
