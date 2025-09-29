@@ -8,7 +8,7 @@ masterlist.Location = strrep(masterlist.Location, 'smb://munin6.biac.duke.edu', 
 cluster_loc = 'yl647@cluster.biac.duke.edu';
 out_loc = '/Volumes/Peterchev/MT_Predict/MT_Predict_Data/Analysis/Dosing/PMD-TMS';
 %% gather info from spreadsheet
-k = 2;
+k = 4;
 subj = masterlist.Subject{k};
 subjects_folder = masterlist.Location{k};
 mesh_path = '';
@@ -29,7 +29,12 @@ for a = 1:4
     % push info to cluster
     system(['rsync -rv --size-only --delete ../Cluster/ ' cluster_loc ':PMD-TMS/']);
     system(['ssh ' cluster_loc ' qsub PMD-TMS/array_run_mode_generation_cpu.sh ' subj ' ' num2str(th_hair)]);
+    while system(['ssh ' cluster_loc ' test -f "PMD-TMS/' subj '/FEM_1/Modes_110/tmp_done.txt"'])
+        pause(60);
+    end
+    system(['ssh ' cluster_loc ' mv "PMD-TMS/' subj '/*.out" PMD-TMS/' subj '/FEM_1/Modes_110/']);
     %% pull info from cluster
     system(['rsync -rv --size-only ' cluster_loc ':PMD-TMS/' subj '/FEM_1/Modes_110/ ' out_loc filesep subj filesep num2str(a)]);
 end
-movefile(fullfile('../Cluster', subj, '*'), [out_loc filesep subj])
+movefile(fullfile('../Cluster', subj, '*'), fullfile(out_loc, subj))
+rmdir(fullfile('../Cluster', subj))
