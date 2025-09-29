@@ -27,7 +27,8 @@ main_offline_stage(pmd_code_path,msh_file,msh_file_read_fcn,msh_file_read_fcn_lo
                         output_folder,run_mode,cluster_parameter_file,th_hair,...
                         'sphere_density', 1, 'mapping_region', 'GM', ...
                         'coil_model_file', fullfile(output_directory, 'MagVenture_Cool-B65.mat'))
-
+fid = fopen(fullfile(output_directory, subject, 'FEM_1', 'Modes_110', 'tmp_done.txt'), 'w'); % signal that writing is complete
+fclose(fid);
 %% Optional name-value argument list to be provided to "main_offline_stage()"
 %1. sphere_density = 5;%to specify the density of the standardized EEG points density. 
 %                         The higher the number, the denser the points. default=5.

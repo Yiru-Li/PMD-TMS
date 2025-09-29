@@ -27,7 +27,7 @@ matlab -batch "mode_generation_cpu('$subject', $th_hair)"
 # **********************************************************
 # -- BEGIN POST-USER --
 echo "----JOB [$JOB_NAME.$JOB_ID] STOP [`date`]----"
-OUTDIR=${OUTDIR:-$HOME/PMD-TMS}
+OUTDIR=${OUTDIR:-$HOME/PMD-TMS/$subject}
 mv $HOME/$JOB_NAME.$JOB_ID.out $OUTDIR/$JOB_NAME.$JOB_ID.out
 RETURNCODE=${RETURNCODE:-0}
 exit $RETURNCODE
