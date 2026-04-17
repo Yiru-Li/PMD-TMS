@@ -7,22 +7,21 @@
 #$ -m ea
 # -- END GLOBAL DIRECTIVE --
  
-# **********************************************************
- 
-# -- BEGIN USER DIRECTIVE --
-# Send notifications to the following address
-#$ -M yl647@duke.edu
-#$ -l h_vmem=32G,vf=32G
- 
-# -- END USER DIRECTIVE --
- 
 # -- BEGIN USER SCRIPT --
-module load simnibs/4.1.0
-subject=$1
-th_hair=$2
-workdir=/mnt/munin/Neacsiu/NATURE.01/Analysis/efield_scripts/E-ref/
-cd $workdir
-matlab -batch "mode_generation_cpu('$workdir', '$subject', $th_hair)"
+module load $2
+cd $1
+MATLAB_script_name=$3
+MATLAB_script_vars=$4
+shift 4
+sep=", "
+for arg in "$@"; do
+  MATLAB_script_vars="${MATLAB_script_vars}${sep}${arg}"
+  sep=","
+done
+# cd $HOME/PMD-TMS
+matlab -batch "$MATLAB_script_name($MATLAB_script_vars)"
+wait
+echo "All Processess are Complete"
 # -- END USER SCRIPT -- #
  
 # **********************************************************

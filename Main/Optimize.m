@@ -17,10 +17,11 @@ end
 MT = masterlist.MT(k);
 dIdtmax = 149.77e6;
 dIdt = dIdtmax*MT/100;
-%%
+%% Define ROI
 subj_dir = ['/Volumes/Peterchev/MT_Predict/MT_Predict_Data/Analysis/Dosing/PMD-TMS/' subj];
 msh = mesh_load_gmsh4(fullfile(subj_dir, [subj '.msh']));
-subj_coords = mni2subject_coords([-43, -89, -8], fullfile(subj_dir, ['m2m_' subj]));
+MNI_coords = readtable('MNI_coords_5mm.xlsx', 'Range', 'A:C');
+subj_coords = mni2subject_coords(MNI_coords{:, :}, fullfile(subj_dir, ['m2m_' subj]));
 GM_centers = mesh_get_tetrahedron_centers(msh);
 GM_centers = GM_centers(msh.tetrahedron_regions==2, :);
 GM_vols = mesh_get_tetrahedron_sizes(msh);
@@ -54,26 +55,3 @@ for a = 2%:4
 end
 toc
 mesh_save_gmsh4(msh, [subj '_test.msh'])
-%% SimNIBS run
-% General information
-
-S = sim_struct('SESSION');
-S.fnamehead = fullfile(mesh_path.folder, mesh_path.name); % head mesh
-S.pathfem = 'tms'; %Folder for the simulation output
-
-% Define TMS simulation
-S.poslist{1} = sim_struct('TMSLIST');
-S.poslist{1}.fnamecoil = '/Users/yl647/Applications/SimNIBS-4.0/simnibs_env/lib/python3.9/site-packages/simnibs/resources/coil_models/Drakaki_BrainStim_2022/MagVenture_Cool-B65.ccd';
-
-%Define Position
-S.poslist{1}.pos(1).matsimnibs(:, [1 3]) = -Anor_standardized(:, [1 3], I);
-S.poslist{1}.pos(1).matsimnibs(:, 2) = Anor_standardized(:, 2, I);
-S.poslist{1}.pos(1).matsimnibs(1:3, 4) = Anor_standardized(1:3, 4, I)*1e3;
-S.poslist{1, 1}.pos.didt = dIdt;
-
-% Run Simulation
-run_simnibs(S);
-%%
-SimNIBS_results = mesh_load_gmsh4('tms/q007_TMS_1-0001_MagVenture_Cool-B65_scalar.msh');
-GM = mesh_extract_regions(SimNIBS_results, 'region_idx', 2);
-scatter(GM.element_data{2, 1}.tetdata, msh.element_data{2}.tetdata(msh.tetrahedron_regions==2))

@@ -42,11 +42,12 @@ if ~isfile(fullfile(output_folder, 'Tetra_code', 'tet_code_thinned.mat'))
 else
     load(fullfile(output_folder, 'Tetra_code', 'tet_code_thinned.mat'))
 end
-% further limit to chunk
-chunk_size = ceil(length(pp_standardized)/total);
-chunk = (1+(segment-1)*chunk_size):min(segment*chunk_size, length(pp_standardized));
-pp_standardized = pp_standardized(chunk, :);
-nhat_standardized = nhat_standardized(chunk, :);
+if total>1 % further limit to chunk
+    chunk_size = ceil(length(pp_standardized)/total);
+    chunk = (1+(segment-1)*chunk_size):min(segment*chunk_size, length(pp_standardized));
+    pp_standardized = pp_standardized(chunk, :);
+    nhat_standardized = nhat_standardized(chunk, :);
+end
 % calculate Anor
 AnorX = zeros(size(nhat_standardized));
 AnorX(:,1)=1-nhat_standardized(:,1).*nhat_standardized(:,1);

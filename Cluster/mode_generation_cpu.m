@@ -1,7 +1,7 @@
-function mode_generation_cpu(subject, th_hair)
+function mode_generation_cpu(output_directory, subject, th_hair)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Defining Paths
-output_directory = '/home/yl647/linux/PMD-TMS/';%output directory for the results
+% output_directory = '/home/yl647/linux/PMD-TMS/';%output directory for the results
 pmd_code_path = fullfile(output_directory, 'PMD_code');
 addpath(pmd_code_path)
 
@@ -15,9 +15,9 @@ msh_file_read_fcn = 'mesh_load_gmsh4';%useful for '.msh' msh-files. Also make su
 msh_file_read_fcn_location = fullfile(simnibs_installation_directory, 'matlab_tools/');
 m2m_dir = fullfile(output_directory, subject, ['m2m_' subject]);
 FEMORD=1;%FEM order = 1,2, or, 3
-run_mode='serial';%options = 'serial','parallel' (for HPC clusters);
+run_mode='parallel_SGE';%options = 'serial','parallel' (for HPC clusters);
 %If parallel, provide the cluster parameters in a separate csv file (cluster_parameters.csv) (compatible with slurm scripting)
-cluster_parameter_file = '/media/wang3007-1/Nahian_5TB/Research/Purdue_University/Professor_Gomez/Projects/Proj-2.1_PMD/Codes/Code_Github/Example_Scripts/cluster_parameters.csv';
+cluster_parameter_file = 'SGE_cluster_parameters.csv';
 % th_hair = 0.0027;%distance of coil bottom center from scalp to accommodate hair thickness
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
