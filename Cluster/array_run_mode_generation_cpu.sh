@@ -12,7 +12,6 @@
 # -- BEGIN USER DIRECTIVE --
 # Send notifications to the following address
 #$ -M yl647@duke.edu
-#$ -l h_vmem=32G,vf=32G
  
 # -- END USER DIRECTIVE --
  
