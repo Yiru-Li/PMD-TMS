@@ -17,15 +17,16 @@
 # -- END USER DIRECTIVE --
  
 # -- BEGIN USER SCRIPT --
+subj=$1
 workdir=/mnt/munin/Neacsiu/NATURE.01/Analysis/efield_scripts/E-ref/
 cd $workdir
-matlab -batch "cluster_optimize"
+matlab -batch "cluster_optimize('$subj')"
 # -- END USER SCRIPT -- #
  
 # **********************************************************
 # -- BEGIN POST-USER --
 echo "----JOB [$JOB_NAME.$JOB_ID] STOP [`date`]----"
-OUTDIR=$workdir
+OUTDIR=$workdir/$subj
 mv $HOME/$JOB_NAME.$JOB_ID.out $OUTDIR/$JOB_NAME.$JOB_ID.out
 RETURNCODE=${RETURNCODE:-0}
 exit $RETURNCODE
